@@ -1,35 +1,50 @@
 import { useDispatch } from "react-redux";
 import { authenticate } from "../redux/AdminSclice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-
-let server_url = import.meta.env.VITE_DOCCURES_SERVER_URL;
-
+const server_url = import.meta.env.VITE_DOCCURES_SERVER_URL;
 
 function useAuth() {
-    let dispatch = useDispatch();
-    let [data, setData] = useState();
-    const authStatus = async () => {
-        try {
-            let response = await fetch(`${server_url}/admin/auth`, {
-                method: 'GET',
-                headers:{
-                    'Content-Type': 'application/json'
-                }
-            });
+  const dispatch = useDispatch();
+  const [authData, setAuthData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-            if(!response.ok){
-                console.log('Error in admin response');
-                throw new Error('Error', response.status);
-            }
-            console.log(response);
-            setData(await response.json());
-            
-        } catch (error) {
-            
-        }
+  const authStatus = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${server_url}/admin/login/status`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Auth status response:', data);
+      setAuthData(data);
+
+      if (data.isAuthenticated) {
+        dispatch(authenticate(data));
+      }
+    } catch (error) {
+      console.error('Error in authStatus:', error);
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
-    return data;
+  };
+
+  useEffect(() => {
+    authStatus();
+  }, []);
+
+  return { authData, isLoading, error };
 }
 
 export default useAuth;

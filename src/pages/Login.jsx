@@ -2,18 +2,32 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import logofull from '../assets/images/logofull.png'
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { authenticate } from '../redux/AdminSclice';
+import useAuth from '../hooks/useAuth';
+import Loading from '../components/Loading';
 
 function Login() {
 
+    let { isAuthenticated } = useSelector(state => state.admin);
     let [password, setPassword] = useState('');
     let [email, setEmail] = useState('');
     let [data, setData] = useState();
     const navigate = useNavigate();
     let dispatch = useDispatch();
+    const { isLoading, error } = useAuth();
 
     let server_url = import.meta.env.VITE_DOCCURES_SERVER_URL;
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            console.log(isAuthenticated);
+            navigate('/dashboard');
+        }
+        else {
+            console.log(isAuthenticated);
+        }
+    }, [isAuthenticated])
 
     useEffect(() => {
         console.log(data);
@@ -42,6 +56,9 @@ function Login() {
 
         setData(await response.json());
         console.log(data);
+    }
+    if (isLoading) {
+        return <Loading />;
     }
 
     return (
