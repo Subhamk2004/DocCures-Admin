@@ -3,6 +3,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Router from "./Router"
 import Login from "./pages/Login"
 import Dashboard from "./pages/Dashboard"
+import AllDoctors from "./pages/AllDoctors"
+import AddDoctor from "./pages/AddDoctor"
+import Appointments from "./pages/Appointments"
 
 function App() {
 
@@ -18,6 +21,18 @@ function App() {
         {
           path: 'dashboard',
           element: <Dashboard />
+        },
+        {
+          path: 'alldoctors',
+          element: <AllDoctors />
+        },
+        {
+          path:'addDoc',
+          element: <AddDoctor />
+        },
+        {
+          path:'appointments',
+          element: <Appointments />
         }
       ]
     }

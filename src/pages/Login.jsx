@@ -1,73 +1,77 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react'
-import logofull from '../assets/images/logofull.png'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { authenticate } from '../redux/AdminSclice';
+import { authenticate, setDisplayAlert } from '../redux/AdminSclice';
 import useAuth from '../hooks/useAuth';
 import Loading from '../components/Loading';
+import AlertDisplay from '../components/AlertDisplay';
+import logofull from '../assets/images/logofull.png'
 
 function Login() {
-
-    let { isAuthenticated } = useSelector(state => state.admin);
-    let [password, setPassword] = useState('');
-    let [email, setEmail] = useState('');
-    let [data, setData] = useState();
+    const { isAuthenticated } = useSelector(state => state.admin);
+    const [showWarning, setShowWarning] = useState(false);
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [data, setData] = useState();
     const navigate = useNavigate();
-    let dispatch = useDispatch();
-    const { isLoading, error } = useAuth();
+    const dispatch = useDispatch();
+    const { isLoading } = useAuth();
 
-    let server_url = import.meta.env.VITE_DOCCURES_SERVER_URL;
+    const server_url = import.meta.env.VITE_DOCCURES_SERVER_URL;
 
     useEffect(() => {
         if (isAuthenticated) {
-            console.log(isAuthenticated);
             navigate('/dashboard');
         }
-        else {
-            console.log(isAuthenticated);
-        }
-    }, [isAuthenticated])
+    }, [isAuthenticated, navigate])
 
     useEffect(() => {
-        console.log(data);
         if (data) {
             if (data.isAuthenticated) {
+                setShowWarning(false);
                 dispatch(authenticate(data));
                 navigate('/dashboard');
+            } else {
+                setShowWarning(true);
             }
         }
-    }, [data])
+    }, [data, dispatch, navigate])
 
-    let handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        dispatch(setDisplayAlert(Date.now()))
+        setShowWarning(false);  // Reset warning state before new submission
 
-        let response = await fetch(`${server_url}/admin/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: `${email}`,
-                password: `${password}`
-            }),
-            credentials: 'include'
-        })
+        try {
+            const response = await fetch(`${server_url}/admin/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password }),
+                credentials: 'include'
+            });
 
-        setData(await response.json());
-        console.log(data);
+            const responseData = await response.json();
+            setData(responseData);
+        } catch (error) {
+            console.error('Login error:', error);
+            setShowWarning(true);
+        }
     }
+
     if (isLoading) {
         return <Loading />;
     }
 
     return (
-        <div className='w-full h-full flex flex-col items-center justify-center gap-8'>
+        <div className='w-full h-full border bg-secondary flex flex-col items-center justify-center gap-8'>
+            {showWarning && <AlertDisplay alertMessage='Invalid Credentials' alertType='warning' />}
             <h1 className='text-3xl font-bold text-primary'>Welcome Admin</h1>
             <form className='shadow-lg shadow-darkGray rounded-3xl p-8 bg-white flex flex-col gap-7 items-center px-[40px]'
                 onSubmit={handleSubmit}
             >
-                <img src={logofull} className='w-[100px]' />
+                <img src={logofull} alt="Logo" className='w-[100px]' />
                 <div className='flex flex-col gap-1'>
                     <label htmlFor='email' className='text-xl font-semibold'>Email</label>
                     <input type='email'
