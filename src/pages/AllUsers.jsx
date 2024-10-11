@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
-import useDoctorList from '../hooks/useDoctorList';
+import React, {useState, useEffect} from 'react'
+import UserProfile from '../components/ProfileCard.jsx'
 import IncomponentLoading from '../components/IncomponentLoading';
-import DoctorProfile from '../components/ProfileCard';
+import useUsers from '../hooks/useUsers.mjs';
 
-function AllDoctors() {
+function AllUsers() {
 
     let [showWarning, setShowWarning] = useState(false)
-    let { doctorList, isLoading, error } = useDoctorList();
-
+    let { users, isLoadingUsers, error } = useUsers();
 
     return (
         <div className='w-[65%] lg:w-[80%] bg-primary p-4'>
@@ -20,19 +19,19 @@ function AllDoctors() {
                                 :
                                 null
                         }
-                        <span className='text-primary'>All</span> Doctors
+                        <span className='text-primary'>All</span> Users
                     </h1>
                 </div>
-                <div className='h-[85%] w-full items-center flex flex-col gap-5 p-4 overflow-scroll no-scrollbar'>
+                <div className='h-[85%] w-full items-center flex flex-col gap-5 px-4 overflow-scroll no-scrollbar'>
                     {
-                        isLoading ?
+                        isLoadingUsers ?
                             <IncomponentLoading />
                             :
                             null
                     }
-                    <DoctorProfile
-                        list={doctorList}
-                        type={'doctors'}
+                    <UserProfile
+                        list={users}
+                        type={'user'}
                     />
                 </div>
             </div>
@@ -40,4 +39,4 @@ function AllDoctors() {
     )
 }
 
-export default AllDoctors
+export default AllUsers

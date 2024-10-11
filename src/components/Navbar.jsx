@@ -16,7 +16,10 @@ import addBlack from '../assets/images/addBlack.png'
 import logoutIcon from '../assets/images/logout.png'
 import useAuth from '../hooks/useAuth'
 import Loading from './Loading.jsx'
+import user from '../assets/images/user.png'
+import userBlack from '../assets/images/userBlack.png'
 import { logout as logoutUser } from '../redux/AdminSclice'
+
 
 function Navbar() {
   let { isAuthenticated } = useSelector(state => state.admin);
@@ -62,7 +65,7 @@ function Navbar() {
             {({ isActive }) => (
               <>
                 <img src={isActive ? home : homeBlack} className='w-[23px] lg:w-[25px]' alt="Home" />
-                Home
+                Dashboard
               </>
             )}
           </NavLink>
@@ -100,6 +103,18 @@ function Navbar() {
               <>
                 <img src={isActive ? add : addBlack} className='w-[23px] lg:w-[25px]' alt="Home" />
                 Add Doctor
+              </>
+            )}
+          </NavLink>
+          <NavLink
+            to="/allUsers"
+            className={({ isActive }) =>
+              isActive ? activeLink : inactiveLink
+            }>
+            {({ isActive }) => (
+              <>
+                <img src={isActive ? user : userBlack} className='w-[23px] lg:w-[25px]' alt="Home" />
+                All Users
               </>
             )}
           </NavLink>

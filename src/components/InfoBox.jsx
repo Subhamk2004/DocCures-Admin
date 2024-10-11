@@ -1,5 +1,6 @@
 import React from 'react'
 import IncomponentLoading from './IncomponentLoading'
+import { Link } from 'react-router-dom'
 
 function InfoBox({
     title,
@@ -7,10 +8,11 @@ function InfoBox({
     image,
     ImgclassName,
     className,
-    isLoading
+    isLoading,
+    to
 }) {
     return (
-        <div className={`px-4 py-4 bg-white flex flex-row  justify-between rounded-2xl shadow-md shadow-darkGray w-[400px] h-[95px] cursor-pointer overflow-hidden ${className}`}>
+        <Link to={to} className={`px-4 py-4 bg-white flex flex-row  justify-between rounded-2xl shadow-md shadow-darkGray w-[400px] h-[95px] cursor-pointer overflow-hidden ${className}`}>
             <div>
                 <p className='font-semibold'>
                     {title}
@@ -25,7 +27,7 @@ function InfoBox({
                 }
             </div>
             <img src={image} alt='doc' className={`${ImgclassName}`} />
-        </div>
+        </Link>
     )
 }
 

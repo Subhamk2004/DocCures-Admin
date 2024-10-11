@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard"
 import AllDoctors from "./pages/AllDoctors"
 import AddDoctor from "./pages/AddDoctor"
 import Appointments from "./pages/Appointments"
+import AllUsers from "./pages/AllUsers"
 
 function App() {
 
@@ -33,6 +34,10 @@ function App() {
         {
           path:'appointments',
           element: <Appointments />
+        },
+        {
+          path:'allUsers',
+          element: <AllUsers />
         }
       ]
     }
