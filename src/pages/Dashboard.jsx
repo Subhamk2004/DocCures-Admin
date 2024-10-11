@@ -7,11 +7,13 @@ import stocks from '../assets/images/stocks.webp'
 import adminDocPic from '../assets/images/adminDocPic.png'
 import guy from '../assets/images/guy.png'
 import InfoBox from '../components/InfoBox';
+import useDoctorList from '../hooks/useDoctorList';
 
 function Dashboard() {
   let { isAuthenticated } = useSelector(state => state.admin);
   let navigate = useNavigate();
   let [alertShown, setAlertShown] = React.useState(false);
+  let { doctorList, isLoading } = useDoctorList();
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -53,7 +55,8 @@ function Dashboard() {
           />
           <InfoBox
             title={'Total no. of doctors registered'}
-            value={'200'}
+            value={doctorList.length}
+            isLoading={isLoading}
             image={adminDocPic}
             ImgclassName={'-mr-7 h-24'}
             className={'mt-10'}

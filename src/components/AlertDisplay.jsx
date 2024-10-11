@@ -89,7 +89,7 @@ function AlertDisplay({
                                     </video>
                                     <strong className='font-bold'>Success!</strong>
                                 </div>
-                                <span className='block sm:inline'>{alertMessage}</span>
+                                <span className='block text-lg sm:inline'>{alertMessage}</span>
                             </div>
                             <button onClick={(e) => {
                                 setAlertIndicator('');
@@ -122,7 +122,7 @@ function AlertDisplay({
                                     </video>
                                     <strong className='font-bold'>Warning!</strong>
                                 </div>
-                                <span className='block sm:inline'>{alertMessage}</span>
+                                <span className='block text-lg sm:inline'>{alertMessage}</span>
                             </div>
                             <button onClick={(e) => {
                                 setAlertIndicator('');
@@ -155,7 +155,7 @@ function AlertDisplay({
                                     </video>
                                     <strong className='font-bold'>Error!</strong>
                                 </div>
-                                <span className='block sm:inline'>{alertMessage}</span>
+                                <span className='block text-lg sm:inline'>{alertMessage}</span>
                             </div>
                             <button onClick={(e) => {
                                 setAlertIndicator('');
