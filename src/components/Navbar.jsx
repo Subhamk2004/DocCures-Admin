@@ -39,6 +39,7 @@ function Navbar() {
     });
     dispatch(logoutUser());
   }
+  
   if (isLoading) {
     return <Loading />
   }
