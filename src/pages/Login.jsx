@@ -40,7 +40,7 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         dispatch(setDisplayAlert(Date.now()))
-        setShowWarning(false);  // Reset warning state before new submission
+        setShowWarning(false);
 
         try {
             const response = await fetch(`${server_url}/admin/login`, {

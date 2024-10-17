@@ -2,13 +2,14 @@ import React from 'react';
 import { Edit, Phone, Mail } from 'lucide-react';
 import verified from '../assets/images/verified.png'
 import RandomColorGenerator from '../utils/RandomColorGenerator.mjs';
+import { Link } from 'react-router-dom';
 
 function ProfileCard({ list, type }) {
     return (
         <div className="flex flex-row flex-wrap items-center justify-evenly gap-6 px-6">
             {list.map((user) => {
                 const color = RandomColorGenerator();
-                const truncatedEmail = user.email.length > 20 ? `${user.email.slice(0, 20)}...` : user.email;
+                const truncatedEmail = user.email.length > 25 ? `${user.email.slice(0, 25)}...` : user.email;
                 return (
                     <div key={user._id} className="bg-white rounded-2xl shadow-md shadow-darkGray overflow-hidden transition-all duration-300 hover:shadow-lg w-[280px]">
                         <div className="relative flex justify-center pt-4">
@@ -90,10 +91,10 @@ function ProfileCard({ list, type }) {
 
                             </div>
                             <div className="flex items-center justify-between w-full">
-                                <button className="w-full flex items-center px-3 py-3 bg-primary text-white rounded-xl font-semibold hover:bg-[#0000ffb6] duration-300">
+                                <Link to={`/viewUser/${user._id}?userType=${user.degree}`} className="w-full flex items-center px-3 py-3 bg-primary text-white rounded-xl font-semibold hover:bg-[#0000ffb6] duration-300">
                                     <Edit className="h-4 w-4 mr-2" />
                                     Edit Profile
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </div>
